@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kyuziera Image Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          sans-serif;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 20px;
+        background: #0f0f0f;
+        color: #ffffff;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 40px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto auto;
+        gap: 20px;
+      }
+
+      .card {
+        background: linear-gradient(145deg, #1b1b1b, #111);
+        border: 1px solid #2a2a2a;
+        border-radius: 18px;
+        padding: 30px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        text-decoration: none;
+        color: inherit;
+      }
+
+      .card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        border-color: #4f9cff;
+      }
+
+      .card.large {
+        grid-column: 1 / 3;
+      }
+
+      .card h2 {
+        margin: 0 0 10px;
+        font-size: 1.4rem;
+      }
+
+      .card p {
+        margin: 0;
+        opacity: 0.75;
+        font-size: 0.95rem;
+      }
+
+      footer {
+        margin-top: 50px;
+        text-align: center;
+        font-size: 0.85rem;
+        opacity: 0.5;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          grid-template-columns: 1fr;
+        }
+
+        .card.large {
+          grid-column: auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Kyuziera Image Tools</h1>
+
+    <div class="container">
+      <a class="card large" href="Pixelated Editor.html">
+        <h2>Pixelated Editor</h2>
+        <p>
+          Tool untuk membuat efek pixelation ala Pixel Art pada gambar, cocok
+          untuk estetika retro, atau eksperimen visual
+          kreatif.
+        </p>
+      </a>
+
+      <a class="card" href="EXIF Watermark.html">
+        <h2>EXIF Watermark</h2>
+        <p>
+          Tambahkan watermark otomatis berbasis metadata foto seperti kamera,
+          aperture, ISO, dan informasi teknis lainnya secara rapi dan konsisten.
+        </p>
+      </a>
+
+      <a class="card" href="Frame Editor.html">
+        <h2>Frame Editor</h2>
+        <p>
+          Editor frame sederhana untuk mengubah rasio foto tanpa terpotong,
+          ideal untuk kebutuhan media sosial, cetak, dan berbagai format
+          tampilan.
+        </p>
+      </a>
+    </div>
+
+    <footer>© Kyuziera</footer>
+  </body>
+</html>

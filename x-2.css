@@ -1,0 +1,64 @@
+:root {
+  --top-div: 60%;
+  --bottom-div: 40%;
+  --scroll: auto;
+}
+select {
+  font-family: "Pixelify Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+}
+
+#displayCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: contain;
+  background-color: #333333;
+}
+
+.info {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #b0b0b0;
+}
+
+#singleFileContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.smooth-button {
+  background-color: #58ec4b;
+  color: #333;
+  box-shadow: 0 2px 5px rgba(75, 236, 75, 0.3);
+}
+.smooth-button.off {
+  background-color: #444;
+  color: #ffff;
+  box-shadow: 0 2px 5px rgba(52, 52, 52, 0.3);
+}
+
+.color-class {
+  background-color: #ff5a07;
+}
+.color-class.on {
+  background-color: #616161;
+}
+
+.efek-class {
+  background-color: #ffc107;
+  color: #333;
+}
+
+.download-class,
+.color-class, .efek-class {
+  margin-top: 12px;
+}
+.slider-label {
+  margin-top: 6px;
+}
