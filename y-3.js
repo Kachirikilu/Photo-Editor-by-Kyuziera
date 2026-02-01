@@ -540,13 +540,13 @@ async function applyManualData() {
   applyManualButton.disabled = true;
 
   const manualData = {
-    device: manualFields.device.value.trim() || "",
-    resolution: manualFields.resolution.value.trim() || "",
-    aperture: manualFields.aperture.value.trim() || "",
-    shutterSpeed: manualFields.shutterSpeed.value.trim() || "",
-    iso: manualFields.iso.value.trim() || "",
-    focalActual: manualFields.focalActual.value.trim() || "",
-    focalEq: manualFields.focalEq.value.trim() || "",
+    device: manualFields.device.value || exif.device  || "",
+    resolution: manualFields.resolution.value || exif.resolution || "",
+    aperture: manualFields.aperture.value || exif.aperture || "",
+    shutterSpeed: manualFields.shutterSpeed.value || exif.shutterSpeed || "",
+    iso: manualFields.iso.value || exif.iso || "",
+    focalActual: manualFields.focalActual.value || exif.focalActual || "",
+    focalEq: manualFields.focalEq.value || exif.focalEq || "",
   };
 
   await ensureWMReady();
@@ -728,6 +728,30 @@ function drawFrameContent(
   // const yDevice = H + FRAME_HEIGHT / 2.2 + FONT_L / 2;
   const yDevice = offsetY + H + FRAME_HEIGHT / 2.2 + FONT_L / 2;
 
+  if (data.focalActual !== '' && !data.focalActual.endsWith(' ') && !data.focalActual.toLowerCase().endsWith('mm')) {
+      let numericValue = data.focalActual.replace(/[m]/g, '').trim();
+      data.focalActual = numericValue + "mm";
+  }
+  data.focalActual = data.focalActual.replace(/\s+/g, ' ').trim();
+
+  if (data.aperture !== '' && !data.aperture.endsWith(' ') && !data.aperture.toLowerCase().startsWith('f/')) {
+      let numericValue = data.aperture.trim();
+      data.aperture = "f/" + numericValue;
+  }
+  data.aperture = data.aperture.replace(/\s+/g, ' ').trim();
+
+  if (data.shutterSpeed !== '' && !data.shutterSpeed.endsWith(' ') && !data.shutterSpeed.endsWith('s') && !data.shutterSpeed.startsWith('1/')) {
+      let numericValue = data.shutterSpeed.trim();
+      data.shutterSpeed = "1/" + numericValue + "s";
+  }
+  data.shutterSpeed = data.shutterSpeed.replace(/\s+/g, ' ').trim();
+
+  if (data.iso !== '' && !data.iso.endsWith(' ') && !data.iso.toUpperCase().startsWith('ISO')) {
+      let numericValue = data.iso.trim();
+      data.iso = "ISO" + numericValue;
+  }
+  data.iso = data.iso.replace(/\s+/g, ' ').trim();
+  
   let partsRB = [];
   if (data.focalActual) {
     partsRB.push(data.focalActual);
@@ -742,20 +766,50 @@ function drawFrameContent(
     partsRB.push(data.iso);
   }
   let exposureText = partsRB.join("  ");
+
+  if (data.resolution !== '' && !data.resolution.endsWith(' ') && !data.resolution.toUpperCase().endsWith('MP') && !data.resolution.endsWith('x Zoom') && !data.resolution.endsWith('X Zoom') && !data.resolution.endsWith('× Zoom')) {
+      let numericValue = data.resolution.replace(/[xX×]/g, '').trim();
+      if (data.resolution.includes('x') || data.resolution.includes('X')) {
+        if (data.focalEq.trim() === '') {
+          data.resolution = numericValue + "x Zoom";
+        } else {
+          data.resolution = numericValue + "x Zoom |";
+        }
+      } else if (data.resolution.includes('×')) {
+        if (data.focalEq.trim() === '') {
+          data.resolution = numericValue + "× Zoom";
+        } else {
+          data.resolution = numericValue + "× Zoom |";
+        }
+      } else {
+          data.resolution = numericValue + " MP";
+      }
+  }
+  data.resolution = data.resolution.replace(/\s+/g, ' ').trim();
+
+  if (data.focalEq !== '' && !data.focalEq.endsWith(' ') && !data.focalEq.toLowerCase().endsWith('mm equivalent')) {
+      let numericValue = data.focalEq.replace(/[m]/g, '').trim();
+      data.focalEq = numericValue + "mm equivalent";
+  }
+  data.focalEq = data.focalEq.replace(/\s+/g, ' ').trim();
+
   let resolutionFocalEq = `${data.resolution} ${data.focalEq}`;
+  if (data.resolution.trim() === "" && data.focalEq.trim() !== "") {
+      resolutionFocalEq = `${data.focalEq}`;
+  }
   let PADDING_X2;
 
-  if (resolutionFocalEq !== " " && data.device == "" && exposureText == "") {
+  if (resolutionFocalEq.trim() !== "" && data.device == "" && exposureText == "") {
     // ctx.fillText(resolutionFocalEq, PADDING_X, yDevice);
     ctx.fillText(data.device, PADDING_X + offsetX, yDevice);
 
-    resolutionFocalEq = " ";
-    PADDING_X2 = PADDING_X / 2;
+    // resolutionFocalEq = " ";
+    PADDING_X2 = PADDING_X;
   } else {
     // ctx.fillText(data.device, PADDING_X, yDevice);
     ctx.fillText(data.device, PADDING_X + offsetX, yDevice);
 
-    if (resolutionFocalEq == " " && exposureText == "")
+    if (resolutionFocalEq.trim() === "" && exposureText == "")
       PADDING_X2 = PADDING_X / 2;
     else {
       PADDING_X2 = PADDING_X;
@@ -766,7 +820,7 @@ function drawFrameContent(
   ctx.fillStyle = "#111111";
 
   let resFocalWidth, resExposureWidth;
-  if (exposureText !== "" && resolutionFocalEq == " ") {
+  if (exposureText !== "" && resolutionFocalEq.trim() === "") {
     resFocalWidth = ctx.measureText(exposureText).width;
     resExposureWidth = ctx.measureText(resolutionFocalEq).width;
   } else {
