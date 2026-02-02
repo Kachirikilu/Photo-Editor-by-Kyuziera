@@ -35,6 +35,7 @@ const manualFields = {
   iso: document.getElementById("manual-iso"),
   focalActual: document.getElementById("manual-focal-actual"),
   focalEq: document.getElementById("manual-focal-eq"),
+  descrip: document.getElementById("manual-description"),
 };
 
 function customInput(preset) {
@@ -540,13 +541,13 @@ async function applyManualData() {
   applyManualButton.disabled = true;
 
   const manualData = {
-    device: manualFields.device.value || exif.device  || "",
-    resolution: manualFields.resolution.value || exif.resolution || "",
-    aperture: manualFields.aperture.value || exif.aperture || "",
-    shutterSpeed: manualFields.shutterSpeed.value || exif.shutterSpeed || "",
-    iso: manualFields.iso.value || exif.iso || "",
-    focalActual: manualFields.focalActual.value || exif.focalActual || "",
-    focalEq: manualFields.focalEq.value || exif.focalEq || "",
+    device: manualFields.device.value || "",
+    resolution: manualFields.resolution.value || "",
+    aperture: manualFields.aperture.value || "",
+    shutterSpeed: manualFields.shutterSpeed.value || "",
+    iso: manualFields.iso.value|| "",
+    focalActual: manualFields.focalActual.value || "",
+    focalEq: manualFields.focalEq.value|| "",
   };
 
   await ensureWMReady();
@@ -610,6 +611,8 @@ function createFramedImage(data, targetCanvas, imgElement = null) {
   const FRAME_HEIGHT = Math.max(Math.round(0.1028 * W - 0.0005 * H), 50);
   const PADDING_X = Math.max(15, Math.round(W * 0.036));
   const FONT_L = Math.round(FRAME_HEIGHT * 0.28);
+  const FONT_LT = Math.round(FRAME_HEIGHT * 0.22);
+  const FONT_LB = Math.round(FONT_LT * 0.6);
   const FONT_RT = Math.round(FRAME_HEIGHT * 0.2);
   const FONT_RB = Math.round(FONT_RT * 0.8);
   // const canvasWidth = W;
@@ -646,33 +649,12 @@ function createFramedImage(data, targetCanvas, imgElement = null) {
   }
 
 
-  // const canvasWidth = W + OUTER_FRAME_SIZE * 2;
-  // const canvasHeight = H + FRAME_HEIGHT + OUTER_FRAME_SIZE * 2;
-
-  // targetCanvas.width = canvasWidth;
-  // targetCanvas.height = canvasHeight;
   targetCanvas.width  = Math.round(outerWidth);
   targetCanvas.height = Math.round(outerHeight);
   const ctx = targetCanvas.getContext("2d");
-  // ctx.drawImage(img, 0, 0, W, H);
-
-  // drawFrameContent(
-  //   ctx,
-  //   W,
-  //   H,
-  //   FRAME_HEIGHT,
-  //   PADDING_X,
-  //   FONT_L,
-  //   FONT_RB,
-  //   FONT_RT,
-  //   data,
-  // );
 
   ctx.fillStyle = OUTER_FRAME_COLOR;
-  // ctx.fillRect(0, 0, canvasWidth, canvasHeight);
   ctx.fillRect(0, 0, targetCanvas.width, targetCanvas.height);
-  // const offsetX = OUTER_FRAME_SIZE;
-  // const offsetY = OUTER_FRAME_SIZE;
   const offsetX = Math.round((outerWidth  - innerWidth)  / 2);
   const offsetY = Math.round((outerHeight - innerHeight) / 2);
   ctx.drawImage(img, offsetX, offsetY, W, H);
@@ -684,27 +666,18 @@ function createFramedImage(data, targetCanvas, imgElement = null) {
     FRAME_HEIGHT,
     PADDING_X,
     FONT_L,
+    FONT_LT,
+    FONT_LB,
     FONT_RB,
     FONT_RT,
     data,
     offsetX,
     offsetY
   );
-  // updatePreviewSize(canvasWidth, canvasHeight);
   updatePreviewSize(targetCanvas.width, targetCanvas.height);
 }
 
-// function drawFrameContent(
-//   ctx,
-//   W,
-//   H,
-//   FRAME_HEIGHT,
-//   PADDING_X,
-//   FONT_L,
-//   FONT_RB,
-//   FONT_RT,
-//   data,
-// ) {
+
 function drawFrameContent(
   ctx,
   W,
@@ -712,6 +685,8 @@ function drawFrameContent(
   FRAME_HEIGHT,
   PADDING_X,
   FONT_L,
+  FONT_LT,
+  FONT_LB,
   FONT_RB,
   FONT_RT,
   data,
@@ -719,33 +694,24 @@ function drawFrameContent(
   offsetY
 ) {
   ctx.fillStyle = "#ffffff";
-  // ctx.fillRect(0, H, W, FRAME_HEIGHT);
   ctx.fillRect(offsetX, offsetY + H, W, FRAME_HEIGHT);
 
-  ctx.fillStyle = "#111111";
-  ctx.font = `bold ${FONT_L}px ${nameFont}`;
-  ctx.textAlign = "left";
-  // const yDevice = H + FRAME_HEIGHT / 2.2 + FONT_L / 2;
-  const yDevice = offsetY + H + FRAME_HEIGHT / 2.2 + FONT_L / 2;
-
+  // Setup Exposure Text +++ Setup Exposure Text +++ Setup Exposure Text +++ Setup Exposure Text +++ Setup Exposure Text
   if (data.focalActual !== '' && !data.focalActual.endsWith(' ') && !data.focalActual.toLowerCase().endsWith('mm')) {
       let numericValue = data.focalActual.replace(/[m]/g, '').trim();
       data.focalActual = numericValue + "mm";
   }
   data.focalActual = data.focalActual.replace(/\s+/g, ' ').trim();
-
   if (data.aperture !== '' && !data.aperture.endsWith(' ') && !data.aperture.toLowerCase().startsWith('f/')) {
       let numericValue = data.aperture.trim();
       data.aperture = "f/" + numericValue;
   }
   data.aperture = data.aperture.replace(/\s+/g, ' ').trim();
-
   if (data.shutterSpeed !== '' && !data.shutterSpeed.endsWith(' ') && !data.shutterSpeed.endsWith('s') && !data.shutterSpeed.startsWith('1/')) {
       let numericValue = data.shutterSpeed.trim();
       data.shutterSpeed = "1/" + numericValue + "s";
   }
   data.shutterSpeed = data.shutterSpeed.replace(/\s+/g, ' ').trim();
-
   if (data.iso !== '' && !data.iso.endsWith(' ') && !data.iso.toUpperCase().startsWith('ISO')) {
       let numericValue = data.iso.trim();
       data.iso = "ISO" + numericValue;
@@ -766,7 +732,9 @@ function drawFrameContent(
     partsRB.push(data.iso);
   }
   let exposureText = partsRB.join("  ");
+  // Setup Exposure Text +++ Setup Exposure Text +++ Setup Exposure Text +++ Setup Exposure Text +++ Setup Exposure Text
 
+  // Setup Resolution and Focal Length Equivalent Text +++ Setup Resolution and Focal Length Equivalent Text +++ Setup Resolution and Focal Length Equivalent Text
   if (data.resolution !== '' && !data.resolution.endsWith(' ') && !data.resolution.toUpperCase().endsWith('MP') && !data.resolution.endsWith('x Zoom') && !data.resolution.endsWith('X Zoom') && !data.resolution.endsWith('× Zoom')) {
       let numericValue = data.resolution.replace(/[xX×]/g, '').trim();
       if (data.resolution.includes('x') || data.resolution.includes('X')) {
@@ -797,25 +765,84 @@ function drawFrameContent(
   if (data.resolution.trim() === "" && data.focalEq.trim() !== "") {
       resolutionFocalEq = `${data.focalEq}`;
   }
+  // Setup Resolution and Focal Length Equivalent Text +++ Setup Resolution and Focal Length Equivalent Text +++ Setup Resolution and Focal Length Equivalent Text
+
+
+  // Setup Variable +++ Setup Variable +++ Setup Variable +++ Setup Variable +++ Setup Variable
   let PADDING_X2;
+  let lbText = manualFields.descrip.value || "";
 
-  if (resolutionFocalEq.trim() !== "" && data.device == "" && exposureText == "") {
-    // ctx.fillText(resolutionFocalEq, PADDING_X, yDevice);
-    ctx.fillText(data.device, PADDING_X + offsetX, yDevice);
+  // Left Side Text Variables
+  const lineSpacingL = FONT_LT * 0.36;
+  const totalHeightL = FONT_LT + lineSpacingL + FONT_LB;
+  let yDevice, yDescrip;
+  // Left Side Text Variables
 
-    // resolutionFocalEq = " ";
-    PADDING_X2 = PADDING_X;
+  // Right Side Text Variables
+  const lineSpacingR = FONT_RT * 0.6;
+  const totalHeightR = FONT_RT + lineSpacingR + FONT_RB;
+  const yCenterR = H + FRAME_HEIGHT / 2.2;
+  let yResolution, yResRT, yExposure;
+  let outputRT = resolutionFocalEq;
+  let outputRB = exposureText;
+  let nullExpo;
+  // Right Side Text Variables
+
+  // Setup Variable +++ Setup Variable +++ Setup Variable +++ Setup Variable +++ Setup Variable
+
+
+  // Setup Draw Text Left Side +++ Setup Draw Text Left Side +++ Setup Draw Text Left Side +++ Setup Draw Text Left Side
+  if (lbText.trim() !== "") {
+    ctx.fillStyle = "#111111";
+    ctx.font = `bold ${FONT_LT}px ${nameFont}`;
+    ctx.textAlign = "left";
+    yDevice = offsetY + H + FRAME_HEIGHT / 2.2 + FONT_LT / 2;
   } else {
-    // ctx.fillText(data.device, PADDING_X, yDevice);
-    ctx.fillText(data.device, PADDING_X + offsetX, yDevice);
+    ctx.fillStyle = "#111111";
+    ctx.font = `bold ${FONT_L}px ${nameFont}`;
+    ctx.textAlign = "left";
+    yDevice = offsetY + H + FRAME_HEIGHT / 2.2 + FONT_L / 2;
+  }
 
-    if (resolutionFocalEq.trim() === "" && exposureText == "")
+  function printLeftText(text) {
+    if (lbText.trim() !== "") {
+      // yResolution = yCenterR - totalHeightL / 2 + FONT_LT;
+      yResolution = yDevice - totalHeightL / 1.7 + FONT_LB;
+
+      if (text.trim() !== "") {
+        ctx.fillText(text, PADDING_X + offsetX, yResolution);
+
+        ctx.fillStyle = "#4d4d4d";
+        ctx.font = `bold ${FONT_LB}px ${nameFont}`;
+        ctx.textAlign = "left";
+        yDescrip = yResolution + FONT_RB + lineSpacingL;
+        ctx.fillText(lbText, PADDING_X + offsetX, yDescrip);
+      } else {
+        ctx.fillText(lbText, PADDING_X + offsetX, yDevice)
+      }
+    } else {
+      ctx.fillText(text, PADDING_X + offsetX, yDevice);
+    }
+  }
+
+  if (resolutionFocalEq.trim() !== "" && data.device.trim() == "" && exposureText.trim() == "") {
+    printLeftText(resolutionFocalEq);
+
+    resolutionFocalEq = "";
+    outputRT = "";
+    PADDING_X2 = PADDING_X / 2;
+  } else {
+    printLeftText(data.device);
+    if (resolutionFocalEq.trim() === "" && exposureText.trim() === "")
       PADDING_X2 = PADDING_X / 2;
     else {
       PADDING_X2 = PADDING_X;
     }
   }
+  // Setup Draw Text Left Side +++ Setup Draw Text Left Side +++ Setup Draw Text Left Side +++ Setup Draw Text Left Side
 
+
+  // Setup Draw Text Right Side +++ Setup Draw Text Right Side +++ Setup Draw Text Right Side +++ Setup Draw Text Right Side
   ctx.font = `bold ${FONT_RT}px ${nameFont}`;
   ctx.fillStyle = "#111111";
 
@@ -828,11 +855,8 @@ function drawFrameContent(
     resExposureWidth = ctx.measureText(exposureText).width;
   }
 
-  // let WPX = W - PADDING_X;
   let WPX = W - PADDING_X + offsetX;
-  
   let pResFocal, pExposure, widthForWm;
-
   let xExposure, xResFocal;
   let PADDING_X3 = 0;
   if (resFocalWidth * FONT_RT > resExposureWidth * FONT_RB) {
@@ -852,58 +876,34 @@ function drawFrameContent(
 
   ctx.textAlign = pResFocal;
 
-  const lineSpacing = FONT_RT * 0.6;
-  const totalTextHeightRight = FONT_RT + lineSpacing + FONT_RB;
-  const yCenterRightBlock = H + FRAME_HEIGHT / 2.2;
-
-  let yResolution;
-  let yResRT;
-  let nullExpo;
-  let outputRT = resolutionFocalEq;
-  let outputRB = exposureText;
   if (exposureText !== "") {
-    if (resolutionFocalEq == " ") {
+    if (resolutionFocalEq.trim() === "") {
       outputRT = exposureText;
       outputRB = "";
-      yResolution = yCenterRightBlock + FONT_RT / 2.2;
+      yResolution = yCenterR + FONT_RT / 2.2;
       yResRT = yResolution + FONT_RT / 9;
       nullExpo = true;
     } else {
-      yResolution = yCenterRightBlock - totalTextHeightRight / 2 + FONT_RT;
+      yResolution = yCenterR - totalHeightR / 2 + FONT_RT;
       yResRT = yResolution;
       nullExpo = false;
     }
-  } else if (exposureText == "") {
-    yResolution = yCenterRightBlock + FONT_RT / 2.2;
+  } else if (exposureText.trim() === "") {
+    yResolution = yCenterR + FONT_RT / 2.2;
     yResRT = yResolution + FONT_RT / 9;
     nullExpo = true;
   }
-
-  // ctx.fillText(outputRT, xResFocal, yResRT);
   ctx.fillText(outputRT, xResFocal, yResRT + offsetY);
 
-  const yExposure = yResolution + FONT_RB + lineSpacing;
   ctx.font = `bold ${FONT_RB}px ${nameFont}`;
   ctx.fillStyle = "#8c8c8c";
   ctx.textAlign = pExposure;
-  // ctx.fillText(outputRB, xExposure, yExposure);
+  yExposure = yResolution + FONT_RB + lineSpacingR;
   ctx.fillText(outputRB, xExposure, yExposure + offsetY);
+  // Setup Draw Text Right Side +++ Setup Draw Text Right Side +++ Setup Draw Text Right Side +++ Setup Draw Text Right Side
+
 
   if (wmImageFile)
-    // drawWM(
-    //   ctx,
-    //   wmImageFile,
-    //   W,
-    //   PADDING_X,
-    //   PADDING_X2,
-    //   PADDING_X3,
-    //   yResolution,
-    //   widthForWm,
-    //   FONT_L,
-    //   FONT_RT,
-    //   FONT_RB,
-    //   nullExpo,
-    // );
     drawWM(
       ctx,
       wmImageFile,
@@ -922,20 +922,6 @@ function drawFrameContent(
     );
 }
 
-// function drawWM(
-//   ctx,
-//   wm,
-//   W,
-//   PADDING_X,
-//   PADDING_X2,
-//   PADDING_X3,
-//   yResolution,
-//   widthForWm,
-//   FONT_L,
-//   FONT_RT,
-//   FONT_RB,
-//   nullExpo,
-// ) {
 function drawWM(
   ctx,
   wm,
@@ -957,18 +943,13 @@ function drawWM(
   const wmScale = wmSize * Math.min(maxWMHeight / wm.height, 1);
   const wmWidth = wm.width * wmScale;
   const wmHeight = wm.height * wmScale;
-  // const xWM = W - PADDING_X - wmWidth - widthForWm - 1.5 * PADDING_X2;
   const xWM = W - PADDING_X - wmWidth - widthForWm - 1.5 * PADDING_X2 + offsetX;
 
   let yWM, yPipe;
   if (!nullExpo) {
-    // yWM = yResolution - wmHeight / 2 + maxWMHeight / 4;
-    // yPipe = yResolution - maxWMHeight / 2 + 1.22 * maxWMHeight;
     yWM = yResolution - wmHeight / 2 + maxWMHeight / 4 + offsetY;
     yPipe = yResolution - maxWMHeight / 2 + 1.22 * maxWMHeight + offsetY;
   } else {
-    // yWM = yResolution - wmHeight / 2 - maxWMHeight / 9;
-    // yPipe = yResolution - maxWMHeight + 1.35 * maxWMHeight;
     yWM = yResolution - wmHeight / 2 - maxWMHeight / 9 + offsetY;
     yPipe = yResolution - maxWMHeight + 1.35 * maxWMHeight + offsetY;
   }
