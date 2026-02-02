@@ -773,7 +773,7 @@ function drawFrameContent(
   let lbText = manualFields.descrip.value || "";
 
   // Left Side Text Variables
-  const lineSpacingL = FONT_LT * 0.36;
+  const lineSpacingL = FONT_LT * 0.52;
   const totalHeightL = FONT_LT + lineSpacingL + FONT_LB;
   let yDevice, yDescrip;
   // Left Side Text Variables
