@@ -807,15 +807,15 @@ function drawFrameContent(
   function printLeftText(text) {
     if (lbText.trim() !== "") {
       // yResolution = yCenterR - totalHeightL / 2 + FONT_LT;
-      yResolution = yDevice - totalHeightL / 1.7 + FONT_LB;
+      yResolution = yDevice - totalHeightL / 1.8 + FONT_LB;
 
       if (text.trim() !== "") {
         ctx.fillText(text, PADDING_X + offsetX, yResolution);
 
-        ctx.fillStyle = "#4d4d4d";
+        ctx.fillStyle = "#707070";
         ctx.font = `bold ${FONT_LB}px ${nameFont}`;
         ctx.textAlign = "left";
-        yDescrip = yResolution + FONT_RB + lineSpacingL;
+        yDescrip = yResolution + FONT_LB + lineSpacingL;
         ctx.fillText(lbText, PADDING_X + offsetX, yDescrip);
       } else {
         ctx.fillText(lbText, PADDING_X + offsetX, yDevice)
