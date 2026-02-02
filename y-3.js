@@ -113,22 +113,18 @@ function formatResolution(width, height, device = "", focalActual = "") {
         case "13.3mm":
           width = 3456;
           height = 4608;
-          manualFields.descrip.value = "OmniVision OV64B";
           break;
         case "6.45mm":
           width = 3072;
           height = 4096;
-          manualFields.descrip.value = "OmniVision OV50H";
           break;
         case "2.32mm":
           width = 3072;
           height = 4080;
-          manualFields.descrip.value = "ISOCELL S5KJN1";
           break;
         case "3.74mm":
           width = 1728;
           height = 2304;
-          manualFields.descrip.value = "ISOCELL S5K3P9SP";
           break;
       }
     }
@@ -146,23 +142,19 @@ function formatResolution(width, height, device = "", focalActual = "") {
         case "3.81mm":
           width = 3072;
           height = 4096;
-          manualFields.descrip.value = "OmiVision OV12A10";
           break;
         case "5.99mm":
           width = 3072;
           height = 4096;
-          manualFields.descrip.value = "OmiVision OV13880";
           break;
         case "2.639mm":
         case "1.92mm":
           width = 1944;
           height = 2592;
-          manualFields.descrip.value = "ISOCELL S5K5E8";
           break;
         case "2.46mm":
           width = 1944;
           height = 2592;
-          manualFields.descrip.value = "OmniVision OV5675";
           break;
       }
     }
@@ -170,6 +162,56 @@ function formatResolution(width, height, device = "", focalActual = "") {
   let megapixels = (width * height) / 1000000;
   if (megapixels.toFixed(1).endsWith("0")) return `${megapixels.toFixed(0)} MP`;
   else return `${megapixels.toFixed(1)} MP`;
+}
+
+function formatDescription(focalActual, device = "") {
+    let descriptionText = "";
+   if (
+    device === "iQOO 12" ||
+    device === "vivo I2220" ||
+    device === "Google I2220" ||
+    device === "I2220"
+  ) {
+      switch (focalActual) {
+        case "13.3mm":
+          descriptionText = "OmniVision OV64B";
+          break;
+        case "6.45mm":
+          descriptionText = "OmniVision OV50H";
+          break;
+        case "2.32mm":
+          descriptionText = "ISOCELL S5KJN1";
+          break;
+        case "3.74mm":
+          descriptionText = "ISOCELL S5K3P9SP";
+          break;
+      }
+  } else if (
+    device === "Xiaomi Mi A1" ||
+    device === "Xiaomi Mi 5X" ||
+    device === "Google Mi A1" ||
+    device === "Google Mi 5X" ||
+    device === "Mi A1" ||
+    device === "Mi 5X" ||
+    device === "Tissot"
+  ) {
+      switch (focalActual) {
+        case "3.81mm":
+          descriptionText = "OmiVision OV12A10";
+          break;
+        case "5.99mm":
+          descriptionText = "OmiVision OV13880";
+          break;
+        case "2.639mm":
+        case "1.92mm":
+          descriptionText = "ISOCELL S5K5E8";
+          break;
+        case "2.46mm":
+          descriptionText = "OmniVision OV5675";
+          break;
+      }
+  }
+  return descriptionText || "";
 }
 
 function formatFocalLength(value, device = "") {
@@ -489,6 +531,7 @@ function processExifData(imgElement, callback) {
 
     const focalActual = formatFocalLength(allTags.FocalLength, device);
     const resolution = formatResolution(width, height, device, focalActual);
+    const descriptionText = formatDescription(focalActual, device);
     const aperture = formatAperture(allTags.FNumber, device);
     const shutterSpeed = formatShutterSpeed(allTags.ExposureTime);
     const iso = formatIso(allTags.ISOSpeedRatings);
@@ -506,6 +549,7 @@ function processExifData(imgElement, callback) {
       manualFields.iso.value = iso;
       manualFields.focalActual.value = focalActual;
       manualFields.focalEq.value = focalEq;
+      manualFields.descrip.value = descriptionText;
     } else {
       manualFields.device.value = "";
       manualFields.resolution.value = "";
@@ -514,17 +558,18 @@ function processExifData(imgElement, callback) {
       manualFields.iso.value = "";
       manualFields.focalActual.value = "";
       manualFields.focalEq.value = "";
+      manualFields.descrip.value = "";
     }
 
-
     currentExifData = {
-      device: device,
+      device,
       resolution,
       aperture,
       shutterSpeed,
       iso,
       focalActual,
       focalEq,
+      descrip: descriptionText,
     };
 
     if (callback) callback();
@@ -559,9 +604,10 @@ async function applyManualData() {
     resolution: manualFields.resolution.value || "",
     aperture: manualFields.aperture.value || "",
     shutterSpeed: manualFields.shutterSpeed.value || "",
-    iso: manualFields.iso.value|| "",
+    iso: manualFields.iso.value || "",
     focalActual: manualFields.focalActual.value || "",
-    focalEq: manualFields.focalEq.value|| "",
+    focalEq: manualFields.focalEq.value || "",
+    descrip: manualFields.descrip.value || "",
   };
 
   await ensureWMReady();
@@ -593,6 +639,7 @@ async function applyManualData() {
       iso: manualData.iso || exif.iso || "",
       focalActual: manualData.focalActual || exif.focalActual || "",
       focalEq: manualData.focalEq || exif.focalEq || "",
+      descrip: manualData.descrip || exif.descrip || "",
     };
 
     createFramedImage(data, canvas, img);
@@ -784,7 +831,7 @@ function drawFrameContent(
 
   // Setup Variable +++ Setup Variable +++ Setup Variable +++ Setup Variable +++ Setup Variable
   let PADDING_X2;
-  let lbText = manualFields.descrip.value || "";
+  let lbText = data.descrip || "";
 
   // Left Side Text Variables
   const lineSpacingL = FONT_LT * 0.47;
