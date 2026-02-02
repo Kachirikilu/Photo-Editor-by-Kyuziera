@@ -113,18 +113,22 @@ function formatResolution(width, height, device = "", focalActual = "") {
         case "13.3mm":
           width = 3456;
           height = 4608;
+          manualFields.descrip.value = "OmniVision OV64B";
           break;
         case "6.45mm":
           width = 3072;
           height = 4096;
+          manualFields.descrip.value = "OmniVision OV50H";
           break;
         case "2.32mm":
           width = 3072;
           height = 4080;
+          manualFields.descrip.value = "ISOCELL S5KJN1";
           break;
         case "3.74mm":
           width = 1728;
           height = 2304;
+          manualFields.descrip.value = "ISOCELL S5K3P9SP";
           break;
       }
     }
@@ -807,7 +811,7 @@ function drawFrameContent(
   function printLeftText(text) {
     if (lbText.trim() !== "") {
       // yResolution = yCenterR - totalHeightL / 2 + FONT_LT;
-      yResolution = yDevice - totalHeightL / 1.95 + FONT_LB;
+      yResolution = yDevice - totalHeightL / 2 + FONT_LB;
 
       if (text.trim() !== "") {
         ctx.fillText(text, PADDING_X + offsetX, yResolution);
