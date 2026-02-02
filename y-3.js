@@ -611,8 +611,8 @@ function createFramedImage(data, targetCanvas, imgElement = null) {
   const FRAME_HEIGHT = Math.max(Math.round(0.1028 * W - 0.0005 * H), 50);
   const PADDING_X = Math.max(15, Math.round(W * 0.036));
   const FONT_L = Math.round(FRAME_HEIGHT * 0.28);
-  const FONT_LT = Math.round(FRAME_HEIGHT * 0.22);
-  const FONT_LB = Math.round(FONT_LT * 0.6);
+  const FONT_LT = Math.round(FRAME_HEIGHT * 0.26);
+  const FONT_LB = Math.round(FONT_LT * 0.52);
   const FONT_RT = Math.round(FRAME_HEIGHT * 0.2);
   const FONT_RB = Math.round(FONT_RT * 0.8);
   // const canvasWidth = W;
@@ -773,7 +773,7 @@ function drawFrameContent(
   let lbText = manualFields.descrip.value || "";
 
   // Left Side Text Variables
-  const lineSpacingL = FONT_LT * 0.52;
+  const lineSpacingL = FONT_LT * 0.47;
   const totalHeightL = FONT_LT + lineSpacingL + FONT_LB;
   let yDevice, yDescrip;
   // Left Side Text Variables
@@ -807,7 +807,7 @@ function drawFrameContent(
   function printLeftText(text) {
     if (lbText.trim() !== "") {
       // yResolution = yCenterR - totalHeightL / 2 + FONT_LT;
-      yResolution = yDevice - totalHeightL / 1.8 + FONT_LB;
+      yResolution = yDevice - totalHeightL / 1.95 + FONT_LB;
 
       if (text.trim() !== "") {
         ctx.fillText(text, PADDING_X + offsetX, yResolution);
