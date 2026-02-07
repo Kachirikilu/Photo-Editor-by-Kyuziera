@@ -2343,17 +2343,17 @@
           return;
         }
 
-        // 1. Persiapan UI utama
+        // ===== 1. Persiapan UI =====
         containerArray.classList.remove("hidden");
         frameContainer.classList.add("hidden");
         placeholderText.style.display = "none";
 
-        // Bersihkan preview sebelumnya
+        // Bersihkan preview lama
         const existingPreviewWrapper =
           containerArray.querySelector(".multi-preview");
         if (existingPreviewWrapper) existingPreviewWrapper.remove();
 
-        // 2. Buat wrapper carousel horizontal (Mengganti inline style dengan CSS Class)
+        // ===== 2. Wrapper preview =====
         const wrapper = document.createElement("div");
         wrapper.className = "multi-preview";
         wrapper.style.display = "flex";
@@ -2365,26 +2365,29 @@
         wrapper.style.height = "100%";
 
         containerArray.appendChild(wrapper);
-        let loadedCount = 1;
 
-        // 3. Render setiap gambar ke dalam thumbnail preview
-        files.forEach((file) => {
+        let finishedCount = 0;
+        const totalFiles = files.length;
+
+        // ===== 3. Proses tiap file =====
+        files.forEach((file, index) => {
           const reader = new FileReader();
+
           reader.onload = (e) => {
             const thumbImg = new Image();
             thumbImg.src = e.target.result;
             thumbImg.className = "preview-thumb-img";
+
             thumbImg.onload = () => {
               multiBool = true;
+
               processExifData(thumbImg, () => {
                 const canvas = document.createElement("canvas");
                 canvas.className = "preview-thumb";
 
                 downloadButton.disabled = true;
                 toggleAdvancedButton.disabled = true;
-                downloadButton.textContent = `${file.name} (${loadedCount++}/${
-                  files.length
-                })`;
+                downloadButton.textContent = `${file.name} (${finishedCount + 1}/${totalFiles})`;
 
                 const thumbMax = 300;
                 const ratio = thumbImg.width / thumbImg.height;
@@ -2401,19 +2404,11 @@
                 canvas._sourceImage = thumbImg;
                 canvas._exifData = { ...currentExifData };
 
-                // 4. Bungkus tiap item (wrapperItem)
+                // ===== 4. Wrapper item =====
                 const wrapperItem = document.createElement("div");
                 wrapperItem.className = "thumb-wrapper";
-                // canvas.style.width = "100%";
-                // canvas.style.height = "auto";
-                // canvas.style.borderRadius = "8px";
-                // canvas.style.border = "1px solid #333";
-                // canvas.style.boxShadow = "0 2px 6px rgba(0, 0, 0, 0.6)";
-                // canvas.style.backgroundColor = "#000";
-
                 wrapperItem.appendChild(canvas);
 
-                // 5. Label nama file
                 const label = document.createElement("p");
                 label.className = "file-title";
                 label.textContent = file.name;
@@ -2421,31 +2416,24 @@
 
                 wrapperItem.appendChild(label);
                 wrapper.appendChild(wrapperItem);
+
+                // ===== 5. Finish counter =====
+                finishedCount++;
+
+                if (finishedCount === totalFiles) {
+                  downloadButton.disabled = false;
+                  toggleAdvancedButton.disabled = false;
+                  downloadButton.textContent = "Simpan";
+
+                  if (typeof applyManualData === "function") {
+                    applyManualData();
+                  }
+                }
               });
-              applyManualData();
             };
           };
+
           reader.readAsDataURL(file);
-          setTimeout(() => {
-            downloadButton.disabled = false;
-            toggleAdvancedButton.disabled = false;
-            downloadButton.textContent = "Simpan";
-          }, 800);
-        });
-        // 6. Jalankan applyManualData setelah semua file selesai dimuat (disederhanakan)
-        Promise.all(
-          files.map(
-            (f) =>
-              new Promise((resolve) => {
-                const r = new FileReader();
-                r.onload = () => resolve();
-                r.readAsDataURL(f);
-              }),
-          ),
-        ).then(() => {
-          if (typeof applyManualData === "function") {
-            applyManualData();
-          }
         });
       }
 
