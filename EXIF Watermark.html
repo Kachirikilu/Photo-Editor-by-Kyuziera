@@ -24,8 +24,10 @@
       <div class="controls">
         <div class="control-group-7">
           <div class="custom-select-container">
-            <div id="selectedOption" class="selected-display">Pilih Font</div>
-            <ul id="optionsList" class="options-list hidden">
+            <div id="selectedFontOption" class="selected-display">
+              Pilih Font
+            </div>
+            <ul id="optionsFontList" class="options-list hidden">
               <li
                 onclick="selectFont('Arial', `Arial, sans-serif`)"
                 style="font-family: Arial, sans-serif"
@@ -117,16 +119,53 @@
             </ul>
           </div>
 
+          <div class="custom-select-container">
+            <div id="selectedWmOption" class="selected-display">Pilih WM</div>
+            <ul id="optionsWmList" class="options-list hidden" style="width: 200px;">
+              <li>
+                <div class="custom-upload-wrap">
+                  <input onclick="selectWM()" type="file" id="wmUpload" accept="image/*" />
+                  <button id="wmManual" type="button" class="upload-button">
+                    Upload
+                  </button>
+                </div>
+              </li>
+              <li onclick="selectWM('none')">None</li>
+              <li onclick="selectWM('Apple')">Apple</li>
+              <li onclick="selectWM('Google')">Google</li>
+              <li onclick="selectWM('Google (G)')">Google (G)</li>
+              <li onclick="selectWM('Google (G 2025)')">Google (G 2025)</li>
+              <li onclick="selectWM('Hasselblad')">Hasselblad</li>
+              <li onclick="selectWM('Hasselblad (Create)')">Hasselblad (Create)</li>
+              <li onclick="selectWM('Hasselblad (H)')">Hasselblad (H)</li>
+              <li onclick="selectWM('Huawei')">Huawei</li>
+              <li onclick="selectWM('Huawei (Shiny)')">Huawei (Shiny)</li>
+              <li onclick="selectWM('iQOO')">iQOO</li>
+              <li onclick="selectWM('iQOO (Black)')">iQOO (Black)</li>            
+              <li onclick="selectWM('Kyuziera')">Kyuziera</li>
+              <li onclick="selectWM('Leica')">Leica</li>
+              <li onclick="selectWM('Oppo')">Oppo</li>
+              <li onclick="selectWM('Oppo (Black)')">Oppo (Black)</li>
+              <li onclick="selectWM('Poco')">Poco</li>
+              <li onclick="selectWM('realme')">realme</li>
+              <li onclick="selectWM('Redmi')">Redmi</li>
+              <li onclick="selectWM('Redmi (2019)')">Redmi (2019)</li>
+              <li onclick="selectWM('Samsung')">Samsung</li>
+              <li onclick="selectWM('Samsung (Black)')">Samsung (Black)</li>
+              <li onclick="selectWM('Samsung (Blue)')">Samsung (Blue)</li>
+              <li onclick="selectWM('Sony')">Sony</li>
+              <li onclick="selectWM('vivo')">vivo</li>
+              <li onclick="selectWM('Xiaomi')">Xiaomi</li>
+              <li onclick="selectWM('Xiaomi (2010)')">Xiaomi (2010)</li>
+              <li onclick="selectWM('ZEISS')">ZEISS</li>
+              <li onclick="selectWM('ZEISS (1906)')">ZEISS (1906)</li>
+              <li onclick="selectWM('ZEISS (1972)')">ZEISS (1972)</li>
+            </ul>
+          </div>
+
           <button id="applyManual" type="button" class="upload-button" disabled>
             Apply
           </button>
-
-          <div class="custom-upload-wrap">
-            <input type="file" id="wmUpload" accept="image/*" />
-            <button id="wmManual" type="button" class="upload-button">
-              WM
-            </button>
-          </div>
 
           <div class="custom-upload-wrap">
             <input
@@ -193,7 +232,8 @@
           <input
             type="text"
             id="manual-focal-eq"
-            placeholder="FL Equivalent"`
+            placeholder="FL Equivalent"
+            `
             disabled
           />
         </div>

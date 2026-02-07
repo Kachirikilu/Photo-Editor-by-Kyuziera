@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 683.67345 164.52989"
+   version="1.1"
+   class="vep-head-logo-small"
+   width="1000"
+   height="236.51172"
+   id="svg4"
+   sodipodi:docname="iQOO.svg"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.5"
+     inkscape:cx="547"
+     inkscape:cy="83"
+     inkscape:window-width="1366"
+     inkscape:window-height="705"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <g
+     id="g1096"
+     style="fill:#f0b318;fill-opacity:1">
+    <path
+       id="path1050"
+       style="fill:#f0b318;stroke-width:10.5237;fill-opacity:1"
+       d="m 160.29732,0.00407609 c -46.39047,0 -83.99864,36.27666691 -83.99864,81.02445891 0,44.747795 37.60817,81.039405 83.99864,81.039405 v -26.63995 c -31.14404,0 -56.38044,-24.35824 -56.38044,-54.399455 0,-30.025906 25.2364,-54.383155 56.38044,-54.383155 31.14402,0 56.39538,24.357249 56.39538,54.383155 h 27.6019 c 0,-44.747792 -37.59094,-81.02445891 -83.99728,-81.02445891 z m 17.77174,79.28940491 -19.58288,18.796195 68.52989,66.440214 19.58152,-18.78125 z" />
+    <path
+       id="path1048"
+       style="fill:#f0b318;stroke-width:10.5237;fill-opacity:1"
+       d="m 605.64787,0 c -46.39046,0 -84.01361,36.276667 -84.0136,81.024459 0,44.763101 37.6245,81.039401 84.01495,81.039401 46.39047,0 84.01359,-36.27667 84.01359,-81.024459 0,-4.197495 -0.33343,-8.318838 -0.96875,-12.347825 C 682.53198,29.795775 647.68675,0 605.64787,0 Z m 0,26.639946 c 31.14402,0 56.38043,24.358606 56.38043,54.384513 0,30.041221 -25.23641,54.398091 -56.38043,54.398091 -31.14404,0 -56.37909,-24.35687 -56.37909,-54.398091 0,-30.025907 25.23505,-54.384513 56.37909,-54.384513 z" />
+    <path
+       id="path1044"
+       style="fill:#f0b318;stroke-width:10.5237;fill-opacity:1"
+       d="m 382.97123,0 c -46.39044,0 -83.99864,36.276667 -83.99864,81.024459 0,44.763101 37.6082,81.039401 83.99864,81.039401 46.39047,0 84.01359,-36.2763 84.01359,-81.039401 C 466.98482,36.276667 429.3617,0 382.97123,0 Z m 0,26.639946 c 31.14403,0 56.39539,24.358606 56.39539,54.384513 0,30.041221 -25.25136,54.398091 -56.39539,54.398091 -31.12813,0 -56.38043,-24.35687 -56.38043,-54.398091 0,-30.025907 25.2523,-54.384513 56.38043,-54.384513 z" />
+    <path
+       id="IQOO-LOGO-黄"
+       style="fill:#f0b318;stroke-width:10.5237;fill-opacity:1"
+       d="M -5.9893615,26.644925 V 0.00459581 H 21.628928 V 26.644925 Z m 0,135.468915 V 53.269937 H 21.628928 V 162.11384 Z" />
+  </g>
+</svg>
