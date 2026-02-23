@@ -25,14 +25,20 @@
         <div class="control-group-7">
           <div class="custom-select-container">
             <div id="selectedFontOption" class="selected-display">
-              Pilih Font
+              Leica LG1056
             </div>
             <ul id="optionsFontList" class="options-list hidden">
               <li
                 onclick="selectFont('Arial', `Arial, sans-serif`)"
                 style="font-family: Arial, sans-serif"
               >
-                Arial (Default)
+                Arial
+              </li>
+              <li
+                onclick="selectFont('Leica LG1056', `'Leica LG1056', sans-serif`)"
+                style="font-family: &quot;Leica LG1056&quot;, sans-serif"
+              >
+                Leica LG1056
               </li>
               <li
                 onclick="selectFont('Minecraft', `'Minecraft', sans-serif`)"
@@ -124,26 +130,35 @@
             <ul id="optionsWmList" class="options-list hidden" style="width: 200px;">
               <li>
                 <div class="custom-upload-wrap">
-                  <input onclick="selectWM()" type="file" id="wmUpload" accept="image/*" />
-                  <button id="wmManual" type="button" class="upload-button">
+                  <input type="file" id="wmUpload" accept="image/*" style="display: none;" />
+                  <button id="wmManual" type="button" class="upload-button" onclick="document.getElementById('wmUpload').click();">
                     Upload
                   </button>
                 </div>
               </li>
               <li onclick="selectWM('none')">None</li>
               <li onclick="selectWM('Apple')">Apple</li>
+              <li onclick="selectWM('Canon')">Canon</li>
+              <li onclick="selectWM('Fujifilm')">Fujifilm</li>
               <li onclick="selectWM('Google')">Google</li>
               <li onclick="selectWM('Google (G)')">Google (G)</li>
               <li onclick="selectWM('Google (G 2025)')">Google (G 2025)</li>
               <li onclick="selectWM('Hasselblad')">Hasselblad</li>
               <li onclick="selectWM('Hasselblad (Create)')">Hasselblad (Create)</li>
               <li onclick="selectWM('Hasselblad (H)')">Hasselblad (H)</li>
+              <li onclick="selectWM('Honor')">Honor</li>
               <li onclick="selectWM('Huawei')">Huawei</li>
               <li onclick="selectWM('Huawei (Shiny)')">Huawei (Shiny)</li>
               <li onclick="selectWM('iQOO')">iQOO</li>
               <li onclick="selectWM('iQOO (Black)')">iQOO (Black)</li>            
               <li onclick="selectWM('Kyuziera')">Kyuziera</li>
               <li onclick="selectWM('Leica')">Leica</li>
+              <li onclick="selectWM('Lenovo')">Lenovo</li>
+              <li onclick="selectWM('Lumix')">Lumix</li>
+              <li onclick="selectWM('Motorola')">Motorola</li>
+              <li onclick="selectWM('Nikon')">Nikon</li>
+              <li onclick="selectWM('Nokia')">Nokia</li>
+              <li onclick="selectWM('Olympus')">Olympus</li>
               <li onclick="selectWM('Oppo')">Oppo</li>
               <li onclick="selectWM('Oppo (Black)')">Oppo (Black)</li>
               <li onclick="selectWM('Poco')">Poco</li>
@@ -160,6 +175,7 @@
               <li onclick="selectWM('ZEISS')">ZEISS</li>
               <li onclick="selectWM('ZEISS (1906)')">ZEISS (1906)</li>
               <li onclick="selectWM('ZEISS (1972)')">ZEISS (1972)</li>
+              <li onclick="selectWM('ZTE')">ZTE</li>
             </ul>
           </div>
 
@@ -188,6 +204,13 @@
         <div class="control-group-4">
           <div>
             <label class="slider-label">Device:</label>
+            <input
+              type="text"
+              id="manual-brand-name"
+              placeholder="Xiaomi"
+              disabled
+              hidden
+            />
             <input
               type="text"
               id="manual-device"
@@ -304,6 +327,13 @@
             class="custom-class"
           >
             C7
+          </button>
+          <button
+            onclick="customInput(8)"
+            id="customButton"
+            class="custom-class"
+          >
+            C8
           </button>
         </div>
 
