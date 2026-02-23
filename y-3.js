@@ -150,11 +150,8 @@ function formatResolution(width, height, device = "", focalActual = "") {
           height = 4096;
           break;
         case "2.639mm":
-        case "1.92mm":
-          width = 1944;
-          height = 2592;
-          break;
         case "2.46mm":
+        case "1.92mm":
           width = 1944;
           height = 2592;
           break;
@@ -178,6 +175,7 @@ function formatResolution(width, height, device = "", focalActual = "") {
           height = 4208;
           break;
         case "2.639mm":
+        case "2.46mm":
         case "1.92mm":
           width = 1944;
           height = 2592;
