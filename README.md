@@ -1,3 +1,1 @@
-"# Pixelation-Image-Processor-by-Kyuziera" 
-"# Photo-Editor-by-Kyuziera" 
-"# Photo-Editor-by-Kyuziera"
+kachirikilu.github.io/Photo-Editor-by-Kyuziera
